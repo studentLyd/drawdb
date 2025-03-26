@@ -5,7 +5,7 @@ import {
   Toast,
   Modal as SemiUIModal,
 } from "@douyinfe/semi-ui";
-import { DB, MODAL, STATUS } from "../../../data/constants";
+import { DB, defaultBlue, MODAL, STATUS } from "../../../data/constants";
 import { useState } from "react";
 import { db } from "../../../data/db";
 import {
@@ -27,6 +27,7 @@ import {
 } from "../../../utils/modalData";
 import Rename from "./Rename";
 import Open from "./Open";
+import Connection from "./Connection"
 import New from "./New";
 import ImportDiagram from "./ImportDiagram";
 import ImportSource from "./ImportSource";
@@ -50,6 +51,8 @@ export default function Modal({
   importDb,
   importFrom,
 }) {
+  const { tables, addTable } = useDiagram();
+  const { transform } = useTransform();
   const { t, i18n } = useTranslation();
   const { setTables, setRelationships, database, setDatabase } = useDiagram();
   const { setNotes } = useNotes();
@@ -72,6 +75,9 @@ export default function Modal({
   const [selectedTemplateId, setSelectedTemplateId] = useState(-1);
   const [selectedDiagramId, setSelectedDiagramId] = useState(0);
   const [saveAsTitle, setSaveAsTitle] = useState(title);
+
+  const [tableName, setTableName] = useState("");
+  const [tableStructure, setTableStructure] = useState([]);
 
   const overwriteDiagram = () => {
     setTables(importData.tables);
@@ -189,6 +195,44 @@ export default function Modal({
     newWindow.name = "lt " + id;
   };
 
+  /**
+   * 初始化表结构数据
+   * @param tableName
+   * @param tableStructure
+   * @returns {{indices: *[], color: string, name, x, y, comment: string, id, key: number}|undefined}
+   */
+  function initialTableData(tableName, tableStructure) {
+    if (tableName && tableStructure) {
+      const table = {
+        id: tables.length,
+        name: tableName,
+        x: transform.pan.x,
+        y: transform.pan.y,
+        comment: "",
+        indices: [],
+        color: defaultBlue,
+        key: Date.now(),
+      };
+      table.fields = tableStructure.map((field, index) => {
+        return {
+          name: field.Field,
+          type: field.Type,
+          default: "",
+          check: "",
+          primary: field.Key === "PRI",
+          unique: field.Key === "UNI",
+          notNull: field.Null === "NO",
+          increment: field.Extra === "auto_increment",
+          comment: "",
+          id: tableName+"_"+field.Field,
+        }
+      });
+      return table;
+    }
+
+    return undefined;
+  }
+
   const getModalOnOk = async () => {
     switch (modal) {
       case MODAL.IMG:
@@ -220,6 +264,11 @@ export default function Modal({
       case MODAL.OPEN:
         if (selectedDiagramId === 0) return;
         loadDiagram(selectedDiagramId);
+        setModal(MODAL.NONE);
+        return;
+      case MODAL.CONNECTION:
+        // 创建表
+        await addTable(initialTableData(tableName, tableStructure));
         setModal(MODAL.NONE);
         return;
       case MODAL.RENAME:
@@ -321,6 +370,15 @@ export default function Modal({
         return <Language />;
       case MODAL.SHARE:
         return <Share title={title} setModal={setModal} />;
+      case MODAL.CONNECTION:
+        return (
+          <Connection
+            tableName={tableName}
+            setTableName={setTableName}
+            tableStructure={tableStructure}
+            setTableStructure={setTableStructure}
+          />
+        );
       default:
         return <></>;
     }

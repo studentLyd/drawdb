@@ -25,6 +25,7 @@ import { databases } from "../data/databases";
 import { isRtl } from "../i18n/utils/rtl";
 import { useSearchParams } from "react-router-dom";
 import { octokit } from "../data/octokit";
+import SidePanelForAI from "./EditorSidePanel/SidePanelForAI.jsx";
 
 export const IdContext = createContext({ gistId: "" });
 
@@ -446,6 +447,9 @@ export default function WorkSpace() {
             </div>
           )}
         </div>
+        {layout.sidebar && (
+          <SidePanelForAI resize={resize} setResize={setResize} width={width*1.5} />
+        )}
       </div>
       <Modal
         centered

@@ -25,6 +25,8 @@ export const getModalTitle = (modal) => {
       return i18n.t("language");
     case MODAL.SHARE:
       return i18n.t("share");
+    case MODAL.CONNECTION:
+      return i18n.t("open_diagram");
     default:
       return "";
   }
@@ -35,6 +37,7 @@ export const getModalWidth = (modal) => {
     case MODAL.LANGUAGE:
     case MODAL.OPEN:
     case MODAL.NEW:
+    case MODAL.CONNECTION:
       return 740;
     default:
       return 600;
@@ -59,6 +62,8 @@ export const getOkText = (modal) => {
       return i18n.t("create");
     case MODAL.SHARE:
       return i18n.t("share");
+    case MODAL.CONNECTION:
+      return i18n.t("open");
     default:
       return i18n.t("confirm");
   }

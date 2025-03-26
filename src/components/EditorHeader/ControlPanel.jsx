@@ -719,6 +719,9 @@ export default function ControlPanel({
   const saveDiagramAs = () => setModal(MODAL.SAVEAS);
   const fullscreen = useFullscreen();
 
+  // 数据库连接配置弹窗
+  const connection = () => setModal(MODAL.CONNECTION);
+
   const menu = {
     file: {
       new: {
@@ -733,6 +736,10 @@ export default function ControlPanel({
       open: {
         function: open,
         shortcut: "Ctrl+O",
+      },
+      connection: {
+        function: connection,
+        shortcut: "Ctrl+/",
       },
       save: {
         function: save,
@@ -1404,6 +1411,7 @@ export default function ControlPanel({
     preventDefault: true,
   });
   useHotkeys("mod+alt+w", fitWindow, { preventDefault: true });
+  useHotkeys("Ctrl+/", connection, { preventDefault: true });
 
   return (
     <>
@@ -1561,6 +1569,14 @@ export default function ControlPanel({
               <IconAddTable />
             </button>
           </Tooltip>
+          <Tooltip content={t("add_by_db")} position="bottom">
+            <button
+              className="flex items-center py-1 px-2 hover-2 rounded-sm"
+              onClick={() => setModal(MODAL.CONNECTION)}
+            >
+              <IconAddTable />
+            </button>
+          </Tooltip>
           <Tooltip content={t("add_area")} position="bottom">
             <button
               className="py-1 px-2 hover-2 rounded-sm flex items-center"
@@ -1672,7 +1688,7 @@ export default function ControlPanel({
                 />
               )}
               <div
-                className="text-xl  me-1"
+                className="text-xl me-1"
                 onPointerEnter={(e) => e.isPrimary && setShowEditName(true)}
                 onPointerLeave={(e) => e.isPrimary && setShowEditName(false)}
                 onPointerDown={(e) => {
