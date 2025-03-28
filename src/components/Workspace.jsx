@@ -55,6 +55,8 @@ export default function WorkSpace() {
     setRelationships,
     database,
     setDatabase,
+    parsedContent,
+    setParsedContent,
   } = useDiagram();
   const { undoStack, redoStack, setUndoStack, setRedoStack } = useUndoRedo();
   const { t, i18n } = useTranslation();
@@ -92,6 +94,7 @@ export default function WorkSpace() {
             loadedFromGistId: loadedFromGistId,
             ...(databases[database].hasEnums && { enums: enums }),
             ...(databases[database].hasTypes && { types: types }),
+            parsedContent: parsedContent,
           })
           .then((id) => {
             setId(id);
@@ -116,6 +119,7 @@ export default function WorkSpace() {
             loadedFromGistId: loadedFromGistId,
             ...(databases[database].hasEnums && { enums: enums }),
             ...(databases[database].hasTypes && { types: types }),
+            parsedContent: parsedContent,
           })
           .then(() => {
             setSaveState(State.SAVED);
@@ -136,6 +140,7 @@ export default function WorkSpace() {
           zoom: transform.zoom,
           ...(databases[database].hasEnums && { enums: enums }),
           ...(databases[database].hasTypes && { types: types }),
+          parsedContent: parsedContent,
         })
         .then(() => {
           setSaveState(State.SAVED);
@@ -162,7 +167,8 @@ export default function WorkSpace() {
     enums,
     gistId,
     loadedFromGistId,
-    saveState
+    saveState,
+    parsedContent,
   ]);
 
   const load = useCallback(async () => {
@@ -219,6 +225,7 @@ export default function WorkSpace() {
             setLoadedFromGistId(diagram.loadedFromGistId);
             setTitle(diagram.name);
             setTables(diagram.tables);
+            setParsedContent(diagram.parsedContent);
             setRelationships(diagram.references);
             setAreas(diagram.areas);
             setNotes(diagram.notes);
@@ -447,7 +454,7 @@ export default function WorkSpace() {
             </div>
           )}
         </div>
-        <SidePanelForAI resize={resize} width={width*1.5} />
+        <SidePanelForAI resize={resize} width={width * 1.5} />
       </div>
       <Modal
         centered

@@ -159,7 +159,7 @@ export default function SidePanelForAI({ width, resize }) {
             <div ref={scrollContainerRef} className="h-full flex-1 overflow-y-auto custom-scrollbar p-4">
               {/* 渲染聊天记录 */}
               <div>
-                {parsedContent.map((item, index) => (
+                {parsedContent?.map((item, index) => (
                   item.type === "user" ? (
                     <div key={index} className={`chat-message user`}>
                       <span onContextMenu={(e) => handleRightClick(e, item)}>{item.content}</span>
