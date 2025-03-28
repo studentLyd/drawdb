@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { Action, DB, ObjectType, defaultBlue } from "../data/constants";
-import { useTransform, useUndoRedo, useSelect } from "../hooks";
+import { useTransform, useUndoRedo, useSelect, useDiagram } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +14,8 @@ export default function DiagramContextProvider({ children }) {
   const { transform } = useTransform();
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
+  const [parsedContent, setParsedContent] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
 
   const addTable = (data, addToHistory = true) => {
     if (data) {
@@ -79,7 +81,7 @@ export default function DiagramContextProvider({ children }) {
           action: Action.DELETE,
           element: ObjectType.TABLE,
           data: { table: tables[id], relationship: rels },
-          message: t("delete_table", { tableName: tables[id].name }),
+          message: t("delete_table", { tableName: tables[id]?.name }),
         },
       ]);
       setRedoStack([]);
@@ -271,6 +273,10 @@ export default function DiagramContextProvider({ children }) {
         setDatabase,
         tablesCount: tables.length,
         relationshipsCount: relationships.length,
+        parsedContent,
+        setParsedContent,
+        isTyping,
+        setIsTyping,
       }}
     >
       {children}

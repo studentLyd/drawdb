@@ -247,6 +247,7 @@ const en = {
     show_relationship_labels: "Show relationship labels",
     docs: "Docs",
     supported_types: "Supported file types:",
+    send: "Send",
   },
 };
 

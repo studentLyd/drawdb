@@ -363,7 +363,7 @@ export default function Table(props) {
           ) : settings.showDataTypes ? (
             <div className="flex gap-1 items-center">
               {fieldData.primary && <IconKeyStroked />}
-              {!fieldData.notNull && <span>?</span>}
+              {!fieldData.notNull && <span>√</span>}
               <span>
                 {fieldData.type +
                   ((dbToTypes[database][fieldData.type].isSized ||

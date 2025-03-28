@@ -45,6 +45,14 @@ export default function LayoutDropdown() {
           </Dropdown.Item>
           <Dropdown.Item
             icon={
+              layout.sideOfAIBar ? <IconCheckboxTick /> : <div className="px-2" />
+            }
+            onClick={() => invertLayout("sideOfAIBar")}
+          >
+            {t("sideOfAIBar")}
+          </Dropdown.Item>
+          <Dropdown.Item
+            icon={
               layout.issues ? <IconCheckboxTick /> : <div className="px-2" />
             }
             onClick={() => invertLayout("issues")}

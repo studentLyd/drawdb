@@ -42,6 +42,7 @@ const zh = {
     view: "视图",
     header: "菜单栏",
     sidebar: "侧边栏",
+    sideOfAIBar: "AI辅助",
     issues: "问题",
     presentation_mode: "演示模式",
     strict_mode: "严格模式",
@@ -217,6 +218,7 @@ const zh = {
     default: "默认值",
     extra: "额外",
     input_table_name: "输入表名",
+    send: "发送",
   },
 };
 

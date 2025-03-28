@@ -441,15 +441,13 @@ export default function WorkSpace() {
           <CanvasContextProvider className="h-full w-full">
             <Canvas saveState={saveState} setSaveState={setSaveState} />
           </CanvasContextProvider>
-          {!(layout.sidebar || layout.toolbar || layout.header) && (
+          {!(layout.sidebar || layout.toolbar || layout.header || layout.sideOfAIBar) && (
             <div className="fixed right-5 bottom-4">
               <FloatingControls />
             </div>
           )}
         </div>
-        {layout.sidebar && (
-          <SidePanelForAI resize={resize} setResize={setResize} width={width*1.5} />
-        )}
+        <SidePanelForAI resize={resize} width={width*1.5} />
       </div>
       <Modal
         centered

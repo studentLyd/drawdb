@@ -1176,6 +1176,15 @@ export default function ControlPanel({
         function: () =>
           setLayout((prev) => ({ ...prev, sidebar: !prev.sidebar })),
       },
+      sideOfAIBar: {
+        state: layout.sideOfAIBar ? (
+          <i className="bi bi-toggle-on" />
+        ) : (
+          <i className="bi bi-toggle-off" />
+        ),
+        function: () =>
+          setLayout((prev) => ({ ...prev, sideOfAIBar: !prev.sideOfAIBar })),
+      },
       issues: {
         state: layout.issues ? (
           <i className="bi bi-toggle-on" />
@@ -1201,6 +1210,7 @@ export default function ControlPanel({
             header: false,
             sidebar: false,
             toolbar: false,
+            sideOfAIBar: false,
           }));
           enterFullscreen();
         },
